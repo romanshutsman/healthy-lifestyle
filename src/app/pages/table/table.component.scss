@@ -1,0 +1,92 @@
+.subscribersTable {
+  padding: 0;
+  .scroll-box {
+    overflow-x: auto;
+    padding: 0 25px;
+    max-width: 1500px;
+    margin: 20px auto;
+    max-height: 95vh;
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.22);;
+    }
+  }
+  table {
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 19.5px;
+    background-color: rgba(255, 255, 255, 0.14);
+    width: 100%;
+    .name {
+      padding-left: 30px;
+      text-align: left;
+      min-width: 154px;
+    }
+    .phone {
+      padding: 0 5px;
+    }
+    .from {
+      min-width: 121px;
+      text-align: center;
+    }
+    .to {
+      min-width: 103px;
+      text-align: center;
+    }
+    .type {
+      min-width: 119px;
+      padding: 0 8px 0 0;
+      text-align: center;
+    }
+    tr {
+      &:nth-child(2) {
+        background-color: rgba(8, 8, 8, 0.08);
+      }
+      th {
+        min-height: 30px;
+        padding-right: 5px;
+        padding-bottom: 7px;
+        padding-top: 7px;
+        background-color: rgba(255, 255, 255, 0.22);
+        &:nth-child(2) {
+          padding-left: 3%;
+          text-align: left;
+        }
+        &:first-child {
+          border-radius: 19.5px 0 0 0;
+        }
+        &:last-child {
+          border-radius: 0 19.5px 0 0;;
+        }
+      }
+      td {
+        height: 35px;
+        &:first-child {
+          height: 30px;
+        }
+      }
+      input {
+        width: 100%;
+        background: url('../../../assets/images/search.png') 30px center no-repeat transparent;
+        border: none;
+        padding: 0 64px;
+        &:focus {
+          outline: none;
+        }
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .highlight {
+  background-color: rgba(255, 208, 0, .34);
+  padding-right: 0;
+  padding-left: 0;
+}

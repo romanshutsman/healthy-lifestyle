@@ -1,0 +1,74 @@
+<main id="wrapper" class="container-fluid">
+  <aside id="column-red" class="column-nav sidebar">
+    <nav id="navbar-red" class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!--<span class="visible-xs"><a class="navbar-brand">example@yahoo.com</a></span>-->
+      </div>
+      <div class="navbar-collapse collapse sidebar-navbar-collapse">
+
+        <ul class="nav navbar-nav side-list">
+          <li style="
+          width: 180px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      " class="email">{{ email }}</li>
+          <li>
+            <button  (click)="userList();" class="btn-filled">User list</button>
+          </li>
+          <li>
+            <button  (click)="addNewBusiness(); "  class="btn-filled">Add</button>
+          </li>
+          <li>
+            <div class="chevkgroup ">
+              <label class="discountparcent" for="search">Search</label>
+              <input
+                class="form-control"
+                type="name"
+                id="search"
+                [(ngModel)]="searchStr"
+                style="margin-bottom: 10px;"
+                >
+            </div>
+          </li>
+          <li>
+            <ul class="business">
+              <li routerLink="/home/form"
+                *ngFor="let b of businesses | search:searchStr, let i = index"
+                [ngClass]="selectetId === i ? 'active': ''"
+                (click)="selectedBusiness(i, b)" [class.longName]="businessesiD[i] < 28 "><span style="    display: block !important;
+                overflow: hidden;
+                text-overflow: inherit;
+                max-width: 189px;
+                width: 189px;">{{ b.name}}</span></li>
+            </ul>
+            <!-- <ul class="business">
+                <div *ngFor="let b of businesses | search:searchStr, let i = index">
+  
+                  <li routerLink="/home/form"
+                  *ngIf="b.owner == email"
+                  [ngClass]="selectetId === i ? 'active': ''"
+                  (click)="selectedBusiness(i, b)"> {{ b.name }}</li>
+                </div>
+              </ul> -->
+          </li>
+          <li>
+            <button class="btn-unfilled btn-logout" (click)="logOut()">Log out</button>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </nav><!--/.navbar -->
+  </aside><!--/.column-nav -->
+
+  <div class="container-fluid main-container">
+    <div class="row">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</main>

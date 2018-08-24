@@ -1,0 +1,298 @@
+<div class="col-md-12">
+  <div class="form-wrapper">
+    <form (ngSubmit)="onSubmit()" [formGroup]="businessForm">
+      <div class="form-group col-xs-12 col-sm-6">
+        <label for="name">Name</label>
+        <input type="text" id="name" class="form-control" formControlName="name" (keyup)="checkName(namebus.value)" #namebus>
+        <div *ngIf="businessForm.controls['name'].errors?.required && businessForm.controls['name'].touched" class="error-msg">
+          <div>Name is required!</div>
+        </div>
+        <div *ngIf="businessForm.controls['name'].hasError('maxlength')" class="error-msg">
+          <div>Name is too long !</div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 col-sm-6">
+        <label for="category">Category</label>
+        <select type="text" id="category" class="form-control" formControlName="type" (click)="checkCategory(selectCat.value); "  #selectCat>
+          <option
+            *ngFor="let category of categories"
+            value="{{ category }}"
+            [selected]="businessForm.get('type').value == category">{{ category }}</option>
+        </select>
+        <div *ngIf="businessForm.controls['type'].errors && businessForm.controls['type'].touched" class="error-msg">
+          <div>Category is required!</div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 p-0">
+        <div class="form-group col-xs-12 col-sm-6 p-0">
+          <div class="col-xs-12">
+            <label for="address">Address</label>
+            <input type="text" id="address" class="form-control" formControlName="address" (keyup)="checkAddress(chooseLocation.value)" #chooseLocation
+              (setAddress)="getAddressOnChange($event)"
+                   appGoogleplace placeholder="">
+            <div *ngIf="businessForm.controls['address'].errors && businessForm.controls['address'].touched" class="error-msg">
+              <div>Address is required!</div>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <label for="phone">Phone</label>
+            <input
+              (keyup)="checkPhone(nums.value)" #nums
+              type="text"
+              id="phone"
+              class="form-control"
+              formControlName="phone"
+              (keyup)="validatePhoneNumber(number)"
+              placeholder="+1XXXXXXXXXXXX"
+              #number>
+            <div *ngIf="businessForm.controls['phone'].errors && businessForm.controls['phone'].touched" class="error-msg">
+              <div>Invalid number!</div>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <label for="webSite">Web site</label>
+            <input type="text" id="webSite" class="form-control" formControlName="webSite"  (keyup)="checkWebsite(web.value)" #web>
+          </div>
+          <div *ngIf="businessForm.controls['webSite'].errors && businessForm.controls['webSite'].touched" class="error-msg">
+            <div style=" padding-left: 15px;">Max size 1000 symbols!</div>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+          <label class="label-table">Schedule</label>
+          <table class="schedule" formArrayName="schedule">
+            <tr>
+              <th></th>
+              <th>Day</th>
+              <th class="from from_from">From</th>
+              <th class="from"></th>
+              <th class="to to_to">To</th>
+              <th class="from"></th>
+            </tr>
+            <tbody *ngFor="let day of getSchedule().controls, let i = index" [formGroupName]="i">
+              <tr>
+                <td>
+                  <input
+                  (keyup)="checkSchedule(mark.value)" 
+                    type="checkbox"
+                    id="mark{{i}}"
+                    class="mark"
+                    #mark
+                    formControlName="isOpen">
+                  <label for="mark{{i}}"></label>
+                </td>
+                <td class="day">{{ days[i] }}</td>
+                    <td style="display:flex;">
+                        <input
+                        (keyup)="checkSchedule(lala.value)"
+                        #lala
+                          type="text"
+                          id="hours_from{{i}}" 
+                          formControlName="from"
+                          (input)="onSearchChange($event.target.value, 1, i)"
+                          appDisableControlSchedule [disableControl]="!mark.checked">
+                        </td>
+                        <td>
+                          <select 
+                          class="hours" 
+                          (click)="checkSchedule(hours.value)"
+                          #hours
+                          id="select{{i}}" 
+                          [(ngModel)]="selectedValueFrom[i]"
+                          appDisableControlSchedule 
+                          [disableControl]="!mark.checked" 
+                          class="form-control"   
+                          formControlName="from_h"  
+                          style="
+                            width: 42px !important;
+                            padding-left: 0px !important;
+                            padding-right: 0px  !important;
+                            margin-top: 0px  !important;
+                            height: 26px  !important;
+                            margin-bottom: 0px  !important;
+                            padding-top: 2px  !important;
+                            padding-bottom: 2px  !important;"
+                          >
+                            <option  value="am" selected>am</option>
+                            <option value="pm">pm</option>
+                          </select> 
+                      </td>
+                      <td style="display:flex;">
+                        <input
+                        id="hours_to{{i}}" 
+                          (keyup)="checkSchedule(to.value)"
+                          #to
+                          type="text"
+                          (input)="onSearchChange($event.target.value, 2, i)"
+                          formControlName="to"
+                          appDisableControlSchedule [disableControl]="!mark.checked">
+                      </td>
+                      <td>
+                          <select 
+                          (click)="checkSchedule(hour.value)"
+                          #hour
+                          class="hours" 
+                          appDisableControlSchedule 
+                          [disableControl]="!mark.checked"  
+                          class="form-control"  
+                          formControlName="to_h" 
+                          [(ngModel)]="selectedValueTo[i]"
+                          style="
+                          width: 42px !important;
+                          padding-left: 0px !important;
+                          padding-right: 0px  !important;
+                          margin-top: 0px  !important;
+                          height: 26px  !important;
+                          margin-bottom: 0px  !important;
+                          padding-top: 2px  !important;
+                          padding-bottom: 2px  !important;"
+                          >
+                            <option value="am">am</option>
+                            <option  value="pm" selected>pm</option>
+                          </select> 
+                      </td>
+              </tr>
+              <div
+                *ngIf=" businessForm.controls['schedule'].controls[i].controls['from'].errors &&
+                        businessForm.controls['schedule'].controls[i].controls['from'].touched ||
+                        businessForm.controls['schedule'].controls[i].controls['to'].errors &&
+                        businessForm.controls['schedule'].controls[i].controls['to'].touched"
+                class="error-msg">
+                <div>Some fields are invalid!(follow pattern XX.XX)</div>
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 p-0" style="max-width: 1150px;">
+        <div class="form-group col-xs-12 col-sm-7">
+          <label class="label-table">Premium discount</label>
+          <table class="discounts" formArrayName="premiumDiscount">
+            <tr>
+              <th>Subscription type</th>
+              <th>Discount percent</th>
+            </tr>
+            <tbody *ngFor="let d of getDiscount().controls, let i = index" [formGroupName]="i">
+              <tr>
+                <td class="type">{{ discounts[i] }}</td>
+                <td>
+                  <input type="number" formControlName="percent" #perc (keyup)="onDiscountType($event); checkPremiumDiscount(perc.value) ">
+                </td>
+              </tr>
+              <div *ngIf="businessForm.controls['premiumDiscount'].controls[i].errors && businessForm.controls['phone'].touched" class="error-msg">
+                <div>Invalid number!</div>
+              </div>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group col-xs-12 col-sm-5 freediscount">
+          <div class="chevkgroup">
+            <input
+              type="checkbox"
+              id="freediscount"
+              (change)="checkFreeDiscount()"
+              #check>
+            <label class="freediscountlabel" for="freediscount">Free discount</label>
+            <label class="discountparcent" for="discountpercent">Discount percent</label>
+            <input
+            (keyup)="checkDiscountPercent(disc.value)" #disc
+              class="form-control"
+              type="number"
+              id="discountpercent"
+              formControlName="discountPercent"
+              appDisableControl [blocked]="!check.checked">
+          </div>
+          <div class="chevkgroup " *ngIf="isAdmin">
+            <label class="discountparcent" for="owner">Owner</label>
+            <input
+            (keyup)="checkOwner(own.value)" #own
+              class="form-control"
+              type="email"
+              id="owner"
+              [(ngModel)]="email"
+              formControlName="owner"
+              >
+          </div>
+          <div *ngIf="businessForm.controls['owner'].errors && businessForm.controls['owner'].touched && isAdmin" class="error-msg">
+            <div>Email is not valid!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12">
+        <label>Description</label>
+        <textarea formControlName="description"></textarea>
+        <div *ngIf="businessForm.controls['description'].errors && businessForm.controls['description'].touched" class="error-msg">
+          <div>Description is required!</div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12">
+        <label>Pictures</label>
+        <section>
+          <ul class="horizontal" appSortableList (sort)="sort($event);">
+            <li *ngFor="let img of images, let i = index" class="pictures " appSortable>
+                <img [src]="img.url" alt="image">
+                <span (click)="onDeleteImg(i, img.key)">&#215;</span>
+                <div *appDraggableHelper></div>
+            </li>
+          </ul>
+          <div class="input-file-container">
+            <label for="myfile">
+              <img src="../../../assets/images/add_photo.png" alt="add photo" *ngIf="images.length < 4">
+            </label>
+            <input type="file" (change)="onAddImg($event)" id="myfile" *ngIf="images.length < 4">
+            <div *ngIf="images.length == 0" class="error-msg">
+              <div>Photo is required!</div>
+            </div>
+          </div>
+        </section>
+        <a 
+          class="col-md-6 btn-save" 
+          *ngIf="imgArray.length > 0 && showBtn && imgArray.length != 0" 
+          style="width: 200px; text-align: center;
+              padding-top: 10px;
+              margin-top: 20px;
+              text-decoration: none;" 
+          (click)="showButton()">Change order of photo
+        </a>
+        <section  *ngIf="imgArray.length == 1 && !showBtn">
+            <ul class="horizontal" appSortableList (sort)="sort($event); sort1($event)">
+              <li *ngFor="let box of sortableList1" class="box" appSortable>
+                <div class="box" *appDraggableHelper></div>
+              </li>
+            </ul>
+          </section>
+          <section  *ngIf="imgArray.length == 2 && !showBtn">
+            <ul class="horizontal" appSortableList (sort)="sort($event); sort2($event)">
+              <li *ngFor="let box of sortableList2" class="box" appSortable>
+                <div class="box" *appDraggableHelper></div>
+              </li>
+            </ul>
+          </section>
+          <section  *ngIf="imgArray.length == 3 && !showBtn">
+            <ul class="horizontal" appSortableList (sort)="sort($event); sort3($event)">
+              <li *ngFor="let box of sortableList3" class="box" appSortable >
+                <div class="box" *appDraggableHelper></div>
+              </li>
+            </ul>
+          </section>
+          <section *ngIf="imgArray.length == 4 && !showBtn">
+            <ul class="horizontal" appSortableList (sort)="sort($event); sort4($event)">
+              <li *ngFor="let box of sortableList4" class="box" appSortable>
+                <div class="box" *appDraggableHelper></div>
+              </li>
+            </ul>
+          </section>
+      </div>
+      <div class="form-group col-xs-12">
+        <div class="btn-group">
+          <button
+            class="col-md-6 btn-save"
+            [disabled]="!businessForm.valid || images.length == 0">Save</button>
+          <button
+            class="col-md-6 btn-delete"
+            (click)="onDelete()"
+            [disabled]="!selectedBusiness">Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

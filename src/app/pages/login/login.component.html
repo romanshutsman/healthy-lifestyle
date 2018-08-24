@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row login-box">
+    <div class="login-form">
+      <div class="logo">
+        <img src="../../../assets/images/healthy.png" alt="logo">
+        <span>lifestyle</span>
+        <p>Admin panel</p>
+      </div>
+      <div class="error" *ngIf="error">{{errorMsg}}</div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="signInForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password">
+            </div>
+          </div>
+        </div>
+        <button type="submit" [disabled]="validate()">Sign in</button>
+      </form>
+    </div>
+  </div>
+</div>

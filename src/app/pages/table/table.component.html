@@ -1,0 +1,23 @@
+<div class="col-md-12 subscribersTable">
+  <div class="scroll-box">
+    <table>
+      <tr>
+        <th class="name">User name</th>
+        <th class="phone">User phone</th>
+        <th class="from">Subscription from</th>
+        <th class="to">Subscription to</th>
+        <th class="type">Subscription type</th>
+      </tr>
+      <tr>
+        <td colspan="5"><input type="number" [(ngModel)]="term"></td>
+      </tr>
+      <tr *ngFor="let item of subscribers | filter: term">
+        <td class="name">{{ item.name }}</td>
+        <td class="phone" [innerHTML]="item.phone | highlight: term"></td>
+        <td class="from">{{ item.subscription_from | date: "dd.MM.yyyy"}}</td>
+        <td class="to">{{ item.subscription_to | date: "dd.MM.yyyy"}}</td>
+        <td class="type">{{ item.type}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

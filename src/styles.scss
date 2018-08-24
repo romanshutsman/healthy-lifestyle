@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: ArialNarrow;
+  src: url('assets/fonts/ArialNarrow/ArialNarrow.svg');
+  src: url('assets/fonts/ArialNarrow/ArialNarrow.woff');
+  src: url('assets/fonts/ArialNarrow/ArialNarrow.eot');
+  src: url('assets/fonts/ArialNarrow/ArialNarrow.ttf');
+}
+
+.font-general {
+  font-family: -apple-system,
+  BlinkMacSystemFont,
+  Arial,
+  "Segoe UI",Roboto,
+  "Helvetica Neue",
+  sans-serif,
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol";
+}
+
+//@font-face {
+//  font-family: ArialUnicodeMs;
+//  src: url('assets/fonts/ArialUnicodeMS/ArialUnicodeMS.ttf');
+//}
+@import "~@angular/cdk/overlay";
+@include cdk-overlay();
+
+.draggable {
+  cursor: move;
+  user-select: none;
+}
+
+.movable:not(.dragging) {
+  transition: transform 300ms ease-in-out;
+}

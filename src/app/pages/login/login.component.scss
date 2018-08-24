@@ -1,0 +1,87 @@
+.login-box {
+  height: 100vh;
+}
+
+.logo {
+  text-align: center;
+  p {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-family: "Segoe UI", sans-serif;
+  }
+  span {
+    font-family: ArialNarrow, sans-serif;
+    font-size: 25px;
+    color: #fff;
+  }
+}
+
+.form-item {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 39px;
+  border-radius: 19.5px;
+  border: none;
+  padding: 14px;
+}
+
+.login-form {
+  display: block;
+  margin: calc((100vh - 532px)/2) auto;
+  max-width: 470px;
+  padding: 80px 135px;
+  background-color: rgba(0, 0, 0, .45);
+  .form-group {
+    margin-bottom: 0;
+    input {
+      @extend .form-item;
+      background-color: rgba(255, 255, 255, 0.6);
+      &:focus {
+        outline: none;
+      }
+      &.ng-touched.ng-invalid{
+        border: 2px solid rgb(217, 107, 107);
+      }
+    }
+    label {
+      @extend .form-item;
+      font-size: 15px;
+      color: #fff;
+      margin: 14px auto;
+      width: 200px;
+      display: block;
+      padding: 0;
+      height: auto;
+    }
+  }
+  button {
+    @extend .form-item;
+    background-image: linear-gradient(93deg, #ece23e, #fdbd0f);
+    color: #000000;
+    margin: 37px auto 0;
+    font-weight: bold;
+    padding: 0;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+    &:disabled {
+      opacity: .5;
+    }
+  }
+}
+
+.error {
+  color: #e87979;
+}
+
+@media (max-width: 576px) {
+  .login-form {
+    padding: 20px 45px;
+    width: auto;
+  }
+}
+
+
